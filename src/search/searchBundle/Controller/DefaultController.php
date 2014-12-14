@@ -52,7 +52,7 @@ class DefaultController extends Controller
             'consumer_key' => "BrHuCVxSO8sjvaEb7wJA3tt9f",
             'consumer_secret' => "a5Fes71Zguqlet9X8ZPfGYGFHGR1IhiVZr8lOLeag3cZHCkxJa");
         $url="https://api.twitter.com/1.1/search/tweets.json";
-        $fields="?q=key&result_type=recent&count=10";
+        $fields="?q={$key}&result_type=recent&count=10";
         $requestMethod = 'GET';
         $twitter = new TwitterAPIExchange($settings);
         $data =  $twitter->setGetfield($fields)

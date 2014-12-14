@@ -20,7 +20,7 @@
 					data:{
 						'key': key
 					},
-					url:'/Symfony/web/app_dev.php/search/key',
+					url:'{{ url("search_key") }}',
 					type:'get',
 					success: function(data){
 						var history=data.history;
