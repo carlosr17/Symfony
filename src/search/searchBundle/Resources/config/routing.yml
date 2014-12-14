@@ -1,0 +1,10 @@
+search_homepage:
+    path:     /
+    defaults: { _controller: searchBundle:Default:busqueda }
+
+search_key:
+    path:	/key
+    defaults: { _controller: searchBundle:Default:search }
+    requirements:
+        _method:  GET
+

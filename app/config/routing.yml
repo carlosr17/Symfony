@@ -1,0 +1,7 @@
+search:
+    resource: "@searchBundle/Resources/config/routing.yml"
+    prefix:   /search
+
+app:
+    resource: @AppBundle/Controller/
+    type:     annotation

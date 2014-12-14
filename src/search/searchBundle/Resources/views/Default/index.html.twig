@@ -1,0 +1,53 @@
+<!doctype html>
+<html>
+	<head>
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+	</head>
+	<body>
+		<input id="search"/>
+		<button onclick="searchKey()">Search</button>
+		<div id="tweets">
+		</div>
+		<div id="keys">
+			
+		</div>
+		<script>
+			function searchKey(){
+				var key=$("#search").val();
+				var divKeys=$("#keys");
+				var divTweets=$("#tweets");
+				$.ajax({
+					data:{
+						'key': key
+					},
+					url:'/Symfony/web/app_dev.php/search/key',
+					type:'get',
+					success: function(data){
+						var history=data.history;
+						var tweets=data.tweets;
+						divKeys.html(renderKeys(history));
+						divTweets.html(renderTweets(tweets));
+					}
+				});
+			}
+
+			function renderKeys(datos){
+				var html="<ul>";
+				$.each(datos, function(i, item) {
+    				html+="<li>"+item.nombre+"</li>";
+				});
+				html+="</ul>"
+				return html;
+			}
+			function renderTweets(datos){
+				var html="<ul>";
+				$.each(datos, function(i, item) {
+    				html+="<li>"+item.user+"-"+item.text+"</li>";
+				});
+				html+="</ul>"
+				return html;
+			}
+
+		</script>
+	</body>
+</html>
