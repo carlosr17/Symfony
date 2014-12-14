@@ -21,7 +21,8 @@ class DefaultController extends Controller
     	$keys=$this->actualizarKey($key);
     	$k1= array();
     	foreach($keys as $k){
-    		$k1[]=array("nombre"=>$k->getNombre());
+    		$k1[]=array("name"=>$k->getNombre(),
+                "date"=>$k->getTime());
     	}
     	$response = new Response(json_encode(array("history"=>$k1,"tweets"=>$this->getTweets($key))));
 		$response->headers->set('Content-Type', 'application/json');
@@ -32,15 +33,10 @@ class DefaultController extends Controller
 		$em = $this->getDoctrine()->getManager();
 		$time = new DateTime('NOW');
 		$repository=$em->getRepository('searchBundle:SearchPalabra');
-    	$key = $repository->findOneBy(array('nombre'=>$key));
-    	if (!$key) {
-    		$key = new SearchPalabra();
-    		$key->setNombre($key);
-    		$key->setTime($time);	
-    		$em->persist($product);
-    	}else{
-		    $key->setTime($time);		    
-		}
+    	$key = new SearchPalabra();
+    	$key->setNombre($key);
+    	$key->setTime($time);	
+    	$em->persist($product);
 		$em->flush();
 		return  $repository->findBy(array(),array('time' => 'DESC'));
 	}
