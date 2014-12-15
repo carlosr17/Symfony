@@ -144,6 +144,11 @@ class appDevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
                     goto not_search_key;
                 }
 
+                $requiredSchemes = array (  'http' => 0,  'https' => 1,);
+                if (!isset($requiredSchemes[$this->context->getScheme()])) {
+                    return $this->redirect($pathinfo, 'search_key', key($requiredSchemes));
+                }
+
                 return array (  '_controller' => 'search\\searchBundle\\Controller\\DefaultController::searchAction',  '_route' => 'search_key',);
             }
             not_search_key:

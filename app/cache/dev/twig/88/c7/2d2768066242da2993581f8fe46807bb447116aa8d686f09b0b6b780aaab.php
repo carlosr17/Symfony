@@ -1,6 +1,6 @@
 <?php
 
-/* base.html.twig */
+/* ::base.html.twig */
 class __TwigTemplate_88c72d2768066242da2993581f8fe46807bb447116aa8d686f09b0b6b780aaab extends Twig_Template
 {
     public function __construct(Twig_Environment $env)
@@ -11,8 +11,7 @@ class __TwigTemplate_88c72d2768066242da2993581f8fe46807bb447116aa8d686f09b0b6b78
 
         $this->blocks = array(
             'title' => array($this, 'block_title'),
-            'stylesheets' => array($this, 'block_stylesheets'),
-            'body' => array($this, 'block_body'),
+            'contenido' => array($this, 'block_contenido'),
             'javascripts' => array($this, 'block_javascripts'),
         );
     }
@@ -20,68 +19,70 @@ class __TwigTemplate_88c72d2768066242da2993581f8fe46807bb447116aa8d686f09b0b6b78
     protected function doDisplay(array $context, array $blocks = array())
     {
         // line 1
-        echo "<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset=\"UTF-8\" />
-        <title>";
-        // line 5
+        echo "    <!DOCTYPE html>
+    <html>
+        <head>
+            <meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />
+            <script src=\"//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js\"></script>
+            <link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css\">
+            <link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css\">
+            <title>";
+        // line 8
         $this->displayBlock('title', $context, $blocks);
         echo "</title>
+        </head>
+        <body>
+        <style>
+        .tweet{
+            margin-top:17px; 
+            border-bottom: #eeeeee solid 1px;
+            padding-bottom: 10px;
+        }
+        </style>
+        <div class=\"container\">
+        <div class=\"row\">
+          ";
+        // line 20
+        $this->displayBlock('contenido', $context, $blocks);
+        // line 22
+        echo "        </div>
+        </div>
+        </body>
         ";
-        // line 6
-        $this->displayBlock('stylesheets', $context, $blocks);
-        // line 7
-        echo "        <link rel=\"icon\" type=\"image/x-icon\" href=\"";
-        echo twig_escape_filter($this->env, $this->env->getExtension('assets')->getAssetUrl("favicon.ico"), "html", null, true);
-        echo "\" />
-    </head>
-    <body>
-        ";
-        // line 10
-        $this->displayBlock('body', $context, $blocks);
-        // line 11
-        echo "        ";
+        // line 25
         $this->displayBlock('javascripts', $context, $blocks);
-        // line 12
-        echo "    </body>
-</html>
+        // line 26
+        echo "
+    </html>
+
 ";
     }
 
-    // line 5
+    // line 8
     public function block_title($context, array $blocks = array())
     {
-        echo "Welcome!";
+        echo "Consula en Twitter";
     }
 
-    // line 6
-    public function block_stylesheets($context, array $blocks = array())
+    // line 20
+    public function block_contenido($context, array $blocks = array())
     {
+        // line 21
+        echo "          ";
     }
 
-    // line 10
-    public function block_body($context, array $blocks = array())
-    {
-    }
-
-    // line 11
+    // line 25
     public function block_javascripts($context, array $blocks = array())
     {
     }
 
     public function getTemplateName()
     {
-        return "base.html.twig";
-    }
-
-    public function isTraitable()
-    {
-        return false;
+        return "::base.html.twig";
     }
 
     public function getDebugInfo()
     {
-        return array (  69 => 11,  64 => 10,  59 => 6,  53 => 5,  47 => 12,  44 => 11,  42 => 10,  35 => 7,  33 => 6,  29 => 5,  23 => 1,);
+        return array (  75 => 25,  71 => 21,  68 => 20,  62 => 8,  55 => 26,  53 => 25,  48 => 22,  46 => 20,  31 => 8,  22 => 1,);
     }
 }
