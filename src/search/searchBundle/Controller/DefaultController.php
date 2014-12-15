@@ -13,7 +13,7 @@ class DefaultController extends Controller
 {
     public function busquedaAction()
     {
-        return $this->render('searchBundle:Default:index.html.twig');
+        return $this->render('searchBundle:Default:index.html.twig',array());
     }
 
     public function searchAction(Request $request){
@@ -22,7 +22,7 @@ class DefaultController extends Controller
     	$k1= array();
     	foreach($keys as $k){
     		$k1[]=array("name"=>$k->getNombre(),
-                "date"=>$k->getTime());
+                "date"=>$k->getTime()->format('Y-m-d H:i:s'));
     	}
     	$response = new Response(json_encode(array("history"=>$k1,"tweets"=>$this->getTweets($key))));
 		$response->headers->set('Content-Type', 'application/json');
@@ -33,10 +33,10 @@ class DefaultController extends Controller
 		$em = $this->getDoctrine()->getManager();
 		$time = new DateTime('NOW');
 		$repository=$em->getRepository('searchBundle:SearchPalabra');
-    	$key = new SearchPalabra();
-    	$key->setNombre($key);
-    	$key->setTime($time);	
-    	$em->persist($product);
+    	$entityKey = new SearchPalabra();
+    	$entityKey->setNombre($key);
+    	$entityKey->setTime($time);	
+    	$em->persist($entityKey);
 		$em->flush();
 		return  $repository->findBy(array(),array('time' => 'DESC'));
 	}
@@ -48,7 +48,7 @@ class DefaultController extends Controller
             'consumer_key' => "BrHuCVxSO8sjvaEb7wJA3tt9f",
             'consumer_secret' => "a5Fes71Zguqlet9X8ZPfGYGFHGR1IhiVZr8lOLeag3cZHCkxJa");
         $url="https://api.twitter.com/1.1/search/tweets.json";
-        $fields="?q={$key}&result_type=recent&count=10";
+        $fields="?q={$key}&result_type=recent&count";
         $requestMethod = 'GET';
         $twitter = new TwitterAPIExchange($settings);
         $data =  $twitter->setGetfield($fields)
@@ -60,7 +60,10 @@ class DefaultController extends Controller
         for($i=0;$tweets_count>$i; $i++){
             $tweet= $tweets->statuses[$i];
             $user= $tweet->user;
-            $tweet_data=array('text'=>$tweet->text,'user'=> $user->screen_name);
+            $tweet_data=array('text'=>$tweet->text,
+                'user'=> $user->screen_name,
+                'img'=>$user->profile_image_url,
+                'time'=>$user->created_at);
             $tweets_return[]=$tweet_data; 
         }
         return $tweets_return;

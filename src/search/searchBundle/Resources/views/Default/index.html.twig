@@ -1,53 +1,21 @@
-<!doctype html>
-<html>
-	<head>
-		<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-	</head>
-	<body>
+{% extends '::base.html.twig' %}
+
+{% block title %}Consulta en Twitter{% endblock %}
+
+{% block contenido %}
+<div class="col-md-10 col-md-offset-1" >
+<div class="page-header">
+  <h1>Consulta en Twitter</h1>
+</div>
+		<div class="col-md-12" style="margin-bottom:20px;">
 		<input id="search"/>
-		<button onclick="searchKey()">Search</button>
-		<div id="tweets">
+		<button onclick="searchKey('{{url("search_key")}}')">Buscar</button>
 		</div>
-		<div id="keys">
-			
+		<div class="col-md-8" id="tweets">
 		</div>
-		<script>
-			function searchKey(){
-				var key=$("#search").val();
-				var divKeys=$("#keys");
-				var divTweets=$("#tweets");
-				$.ajax({
-					data:{
-						'key': key
-					},
-					url:'{{ url("search_key") }}',
-					type:'get',
-					success: function(data){
-						var history=data.history;
-						var tweets=data.tweets;
-						divKeys.html(renderKeys(history));
-						divTweets.html(renderTweets(tweets));
-					}
-				});
-			}
-
-			function renderKeys(datos){
-				var html="<ul>";
-				$.each(datos, function(i, item) {
-    				html+="<li>"+item.name+"-"+item.date+"</li>";
-				});
-				html+="</ul>"
-				return html;
-			}
-			function renderTweets(datos){
-				var html="<ul>";
-				$.each(datos, function(i, item) {
-    				html+="<li>"+item.user+"-"+item.text+"</li>";
-				});
-				html+="</ul>"
-				return html;
-			}
-
+		<div class="col-md-4" id="keys">
+		</div>
+		<script src="{{ asset('bundles/search/js/search.js') }}" type="text/javascript">
 		</script>
-	</body>
-</html>
+</div>
+{% endblock %}
