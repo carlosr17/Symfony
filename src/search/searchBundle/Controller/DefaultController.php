@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use search\searchBundle\Entity\SearchPalabra;
 use \DateTime;
+use \DateTimeZone;
 use search\searchBundle\Classes\TwitterAPIExchange;
 
 class DefaultController extends Controller
@@ -22,7 +23,7 @@ class DefaultController extends Controller
     	$k1= array();
     	foreach($keys as $k){
     		$k1[]=array("name"=>$k->getNombre(),
-                "date"=>$k->getTime()->format('Y-m-d H:i:s'));
+                "date"=>$k->getTime()->setTimezone(new DateTimeZone('America/Bogota'))->format('Y-m-d H:i:s'));
     	}
     	$response = new Response(json_encode(array("history"=>$k1,"tweets"=>$this->getTweets($key))));
 		$response->headers->set('Content-Type', 'application/json');
@@ -48,7 +49,7 @@ class DefaultController extends Controller
             'consumer_key' => "BrHuCVxSO8sjvaEb7wJA3tt9f",
             'consumer_secret' => "a5Fes71Zguqlet9X8ZPfGYGFHGR1IhiVZr8lOLeag3cZHCkxJa");
         $url="https://api.twitter.com/1.1/search/tweets.json";
-        $fields="?q={$key}&result_type=recent&count";
+        $fields="?q={$key}&result_type=recent&count=10";
         $requestMethod = 'GET';
         $twitter = new TwitterAPIExchange($settings);
         $data =  $twitter->setGetfield($fields)
@@ -60,10 +61,13 @@ class DefaultController extends Controller
         for($i=0;$tweets_count>$i; $i++){
             $tweet= $tweets->statuses[$i];
             $user= $tweet->user;
+            $date = new DateTime($tweet->created_at);
+            $date->setTimezone(new DateTimeZone('America/Bogota'));
+            $formatted_date = $date->format('Y-m-d H:i:s');
             $tweet_data=array('text'=>$tweet->text,
                 'user'=> $user->screen_name,
                 'img'=>$user->profile_image_url,
-                'time'=>$user->created_at);
+                'time'=>$formatted_date);
             $tweets_return[]=$tweet_data; 
         }
         return $tweets_return;
