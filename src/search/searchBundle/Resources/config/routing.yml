@@ -7,4 +7,5 @@ search_key:
     defaults: { _controller: searchBundle:Default:search }
     requirements:
         _method:  GET
+    schemes: [http,https]
 
